@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "DF1",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -10,14 +10,54 @@
 						"type": "DatasetReference"
 					},
 					"name": "Assets"
+				},
+				{
+					"dataset": {
+						"referenceName": "KEV",
+						"type": "DatasetReference"
+					},
+					"name": "KEV"
+				},
+				{
+					"dataset": {
+						"referenceName": "Vulnerability_alerts",
+						"type": "DatasetReference"
+					},
+					"name": "alerts"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "aggregate2"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> Assets"
+				"     ignoreNoFilesFound: false) ~> Assets",
+				"source(output(",
+				"          {CVE ID} as string,",
+				"          {Vendor Project} as string,",
+				"          Product as string,",
+				"          {Vulnerability Name} as string,",
+				"          {Date Added} as string,",
+				"          {Short Description} as string,",
+				"          {Required Action} as string,",
+				"          {Due Date} as string,",
+				"          Notes as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> KEV",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> alerts",
+				"Assets aggregate() ~> aggregate1",
+				"KEV aggregate() ~> aggregate2"
 			]
 		}
 	}
