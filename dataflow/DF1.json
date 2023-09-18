@@ -27,24 +27,23 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [
-				{
-					"name": "aggregate1"
-				},
-				{
-					"name": "aggregate2"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          application as string,",
+				"          ip as string,",
+				"          hostname as string,",
+				"          dep as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> Assets",
 				"source(output(",
-				"          {CVE ID} as string,",
+				"          {CVE ID} as string 'var',",
 				"          {Vendor Project} as string,",
 				"          Product as string,",
 				"          {Vulnerability Name} as string,",
-				"          {Date Added} as string,",
+				"          {Date Added} as date,",
 				"          {Short Description} as string,",
 				"          {Required Action} as string,",
 				"          {Due Date} as string,",
@@ -53,11 +52,22 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> KEV",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          CVE as string,",
+				"          SeverityScore as integer,",
+				"          VulnerabilityName as string,",
+				"          AlertDate as date,",
+				"          Application as string,",
+				"          Department as string,",
+				"          Description as string,",
+				"          ExploitationVector as string,",
+				"          Hostname as string,",
+				"          IP as string,",
+				"          Vendor as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> alerts",
-				"Assets aggregate() ~> aggregate1",
-				"KEV aggregate() ~> aggregate2"
+				"     ignoreNoFilesFound: false) ~> alerts"
 			]
 		}
 	}

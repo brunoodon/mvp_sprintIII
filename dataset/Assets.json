@@ -19,6 +19,23 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "application",
+				"type": "String"
+			},
+			{
+				"name": "ip",
+				"type": "String"
+			},
+			{
+				"name": "hostname",
+				"type": "String"
+			},
+			{
+				"name": "dep",
+				"type": "String"
+			}
+		]
 	}
 }
