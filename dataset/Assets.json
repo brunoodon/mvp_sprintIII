@@ -1,0 +1,25 @@
+{
+	"name": "Assets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "assets",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MVP"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
