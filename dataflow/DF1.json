@@ -17,17 +17,14 @@
 						"type": "DatasetReference"
 					},
 					"name": "KEV"
-				},
-				{
-					"dataset": {
-						"referenceName": "Vulnerability_alerts",
-						"type": "DatasetReference"
-					},
-					"name": "alerts"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "alertquery"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          application as string,",
@@ -52,22 +49,11 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> KEV",
-				"source(output(",
-				"          CVE as string,",
-				"          SeverityScore as integer,",
-				"          VulnerabilityName as string,",
-				"          AlertDate as date,",
-				"          Application as string,",
-				"          Department as string,",
-				"          Description as string,",
-				"          ExploitationVector as string,",
-				"          Hostname as string,",
-				"          IP as string,",
-				"          Vendor as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> alerts"
+				"Assets, KEV join(application == Product,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> alertquery"
 			]
 		}
 	}
