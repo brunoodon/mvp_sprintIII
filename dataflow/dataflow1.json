@@ -5,10 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "Assets",
-						"type": "DatasetReference"
-					},
 					"name": "assets"
 				},
 				{
@@ -26,15 +22,8 @@
 				}
 			],
 			"scriptLines": [
-				"source(output(",
-				"          application as string,",
-				"          ip as string,",
-				"          hostname as string,",
-				"          dep as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> assets",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> assets",
 				"source(output(",
 				"          {CVE ID} as string,",
 				"          {Vendor Project} as string,",
