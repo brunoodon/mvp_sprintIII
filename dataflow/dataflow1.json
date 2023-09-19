@@ -49,9 +49,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> KEV",
-				"assets lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     multiple: false,",
-				"     pickup: 'any',",
+				"assets, KEV lookup(application == Product,",
+				"     multiple: true,",
 				"     broadcast: 'auto')~> lookup1"
 			]
 		}
