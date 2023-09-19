@@ -9,7 +9,7 @@
 						"referenceName": "Assets",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "assets"
 				}
 			],
 			"sinks": [],
@@ -23,7 +23,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1"
+				"     ignoreNoFilesFound: false) ~> assets"
 			]
 		}
 	}
