@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "Assets",
+						"type": "DatasetReference"
+					},
 					"name": "assets"
 				},
 				{
@@ -15,15 +19,26 @@
 					"name": "KEV"
 				}
 			],
-			"sinks": [],
-			"transformations": [
+			"sinks": [
 				{
-					"name": "lookup1"
+					"dataset": {
+						"referenceName": "Vulnerability_alerts",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
 				}
 			],
+			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> assets",
+				"source(output(",
+				"          application as string,",
+				"          ip as string,",
+				"          hostname as string,",
+				"          dep as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> assets",
 				"source(output(",
 				"          {CVE ID} as string,",
 				"          {Vendor Project} as string,",
@@ -38,9 +53,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> KEV",
-				"assets, KEV lookup(application == Product,",
-				"     multiple: true,",
-				"     broadcast: 'auto')~> lookup1"
+				"assets sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
