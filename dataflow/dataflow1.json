@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "assets"
+				},
+				{
+					"dataset": {
+						"referenceName": "KEV",
+						"type": "DatasetReference"
+					},
+					"name": "KEV"
 				}
 			],
 			"sinks": [],
@@ -23,7 +30,21 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> assets"
+				"     ignoreNoFilesFound: false) ~> assets",
+				"source(output(",
+				"          {CVE ID} as string,",
+				"          {Vendor Project} as string,",
+				"          Product as string,",
+				"          {Vulnerability Name} as string,",
+				"          {Date Added} as string,",
+				"          {Short Description} as string,",
+				"          {Required Action} as string,",
+				"          {Due Date} as string,",
+				"          Notes as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> KEV"
 			]
 		}
 	}
