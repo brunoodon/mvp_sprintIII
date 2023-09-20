@@ -1,0 +1,13 @@
+{
+	"name": "Delta",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLake",
+		"typeProperties": {
+			"domain": "https://adb-3595025178222125.5.azuredatabricks.net",
+			"clusterId": "0916-003110-uccavbr2",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDBCNTc0REEyLTJCOEMtNDExQy1BNTlGLUU0OUFGMjkxNjNCN182ZTkwZDVhMS01YTY3LTQyN2YtOWU4OS00MjRmNDNhMGMyMGYiDQp9"
+		}
+	}
+}
