@@ -12,7 +12,8 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> Assets"
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Assets"
 			]
 		}
 	}
