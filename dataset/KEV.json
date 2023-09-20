@@ -1,5 +1,5 @@
 {
-	"name": "AzureDatabricksDeltaLakeDataset1",
+	"name": "KEV",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Delta",
