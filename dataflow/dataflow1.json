@@ -5,14 +5,25 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"name": "source1"
+					"dataset": {
+						"referenceName": "assets_http",
+						"type": "DatasetReference"
+					},
+					"name": "Assets"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1"
+				"source(output(",
+				"          application as string,",
+				"          ip as string,",
+				"          hostname as string,",
+				"          dep as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Assets"
 			]
 		}
 	}

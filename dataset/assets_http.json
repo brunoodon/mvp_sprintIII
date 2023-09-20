@@ -1,5 +1,5 @@
 {
-	"name": "assets",
+	"name": "assets_http",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "assets",
