@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "assets"
+				},
+				{
+					"dataset": {
+						"referenceName": "kev_http",
+						"type": "DatasetReference"
+					},
+					"name": "KEV"
 				}
 			],
 			"sinks": [],
@@ -23,7 +30,23 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> assets"
+				"     ignoreNoFilesFound: false) ~> assets",
+				"source(output(",
+				"          Vulnerability as string,",
+				"          SeverityScore as string,",
+				"          VulnerabilityName as string,",
+				"          AlertDate as string,",
+				"          Application as string,",
+				"          Department as string,",
+				"          Description as string,",
+				"          ExploitationVector as string,",
+				"          Hostname as string,",
+				"          IP as string,",
+				"          Vendor as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> KEV"
 			]
 		}
 	}
