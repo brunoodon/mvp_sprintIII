@@ -22,7 +22,7 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "lookup1"
+					"name": "Alerts"
 				}
 			],
 			"scriptLines": [
@@ -51,10 +51,10 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> KEV",
-				"assets, KEV lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"assets, KEV lookup(assets@application == KEV@Application,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup1"
+				"     broadcast: 'auto')~> Alerts"
 			]
 		}
 	}
