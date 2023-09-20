@@ -3,73 +3,11 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [
-				{
-					"dataset": {
-						"referenceName": "Assets",
-						"type": "DatasetReference"
-					},
-					"name": "assets"
-				},
-				{
-					"dataset": {
-						"referenceName": "KEV",
-						"type": "DatasetReference"
-					},
-					"name": "KEV"
-				}
-			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "Vulnerability_alerts",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
-				}
-			],
+			"sources": [],
+			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(output(",
-				"          application as string,",
-				"          ip as string,",
-				"          hostname as string,",
-				"          dep as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> assets",
-				"source(output(",
-				"          {CVE ID} as string,",
-				"          {Vendor Project} as string,",
-				"          Product as string,",
-				"          {Vulnerability Name} as string,",
-				"          {Date Added} as string,",
-				"          {Short Description} as string,",
-				"          {Required Action} as string,",
-				"          {Due Date} as string,",
-				"          Notes as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> KEV",
-				"assets sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
-				"          Column_1 as string,",
-				"          Column_2 as string,",
-				"          Column_3 as string,",
-				"          Column_4 as string,",
-				"          Column_5 as string,",
-				"          Column_6 as string,",
-				"          Column_7 as string,",
-				"          Column_8 as string,",
-				"          Column_9 as string,",
-				"          Column_10 as string,",
-				"          Column_11 as string",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				""
 			]
 		}
 	}
