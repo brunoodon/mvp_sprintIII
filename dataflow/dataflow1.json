@@ -5,15 +5,14 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"name": "source1"
+					"name": "Assets"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: true,",
-				"     inferDriftedColumnTypes: true) ~> source1"
+				"     validateSchema: false) ~> Assets"
 			]
 		}
 	}
