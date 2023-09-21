@@ -1,0 +1,105 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "df-sprintIII"
+		},
+		"Delta_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'Delta'"
+		},
+		"mvp_puc_ftp_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'mvp_puc_ftp'"
+		},
+		"mvp_sprintIII_dw_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'mvp_sprintIII_dw'"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://sprintIIIkey.vault.azure.net/"
+		},
+		"assets_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
+		},
+		"known_exploited_vulnerabilities_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/known_exploited_vulnerabilities.csv"
+		},
+		"mvp_puc_ftp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "mvp-puc.brunoodon.com.br"
+		},
+		"mvp_puc_ftp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "odon"
+		},
+		"vulnerability_alerts_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "df-sprintIII_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Delta_accessToken": {
+						"value": "[parameters('Delta_accessToken')]"
+					},
+					"mvp_puc_ftp_password": {
+						"value": "[parameters('mvp_puc_ftp_password')]"
+					},
+					"mvp_sprintIII_dw_accessToken": {
+						"value": "[parameters('mvp_sprintIII_dw_accessToken')]"
+					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
+					"assets_properties_typeProperties_url": {
+						"value": "[parameters('assets_properties_typeProperties_url')]"
+					},
+					"known_exploited_vulnerabilities_properties_typeProperties_url": {
+						"value": "[parameters('known_exploited_vulnerabilities_properties_typeProperties_url')]"
+					},
+					"mvp_puc_ftp_properties_typeProperties_host": {
+						"value": "[parameters('mvp_puc_ftp_properties_typeProperties_host')]"
+					},
+					"mvp_puc_ftp_properties_typeProperties_userName": {
+						"value": "[parameters('mvp_puc_ftp_properties_typeProperties_userName')]"
+					},
+					"vulnerability_alerts_properties_typeProperties_url": {
+						"value": "[parameters('vulnerability_alerts_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

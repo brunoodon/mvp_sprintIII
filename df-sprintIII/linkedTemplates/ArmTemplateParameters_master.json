@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "df-sprintIII"
+		},
+		"Delta_accessToken": {
+			"value": ""
+		},
+		"mvp_puc_ftp_password": {
+			"value": ""
+		},
+		"mvp_sprintIII_dw_accessToken": {
+			"value": ""
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://sprintIIIkey.vault.azure.net/"
+		},
+		"assets_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
+		},
+		"known_exploited_vulnerabilities_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/known_exploited_vulnerabilities.csv"
+		},
+		"mvp_puc_ftp_properties_typeProperties_host": {
+			"value": "mvp-puc.brunoodon.com.br"
+		},
+		"mvp_puc_ftp_properties_typeProperties_userName": {
+			"value": "odon"
+		},
+		"vulnerability_alerts_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
