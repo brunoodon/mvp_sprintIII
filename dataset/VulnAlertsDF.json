@@ -1,0 +1,68 @@
+{
+	"name": "VulnAlertsDF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Delta",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLakeDataset",
+		"typeProperties": {
+			"table": "vulnerability_alerts_schema"
+		},
+		"schema": [
+			{
+				"name": "application",
+				"type": "string"
+			},
+			{
+				"name": "ip",
+				"type": "string"
+			},
+			{
+				"name": "hostname",
+				"type": "string"
+			},
+			{
+				"name": "dep",
+				"type": "string"
+			},
+			{
+				"name": "CVE ID",
+				"type": "string"
+			},
+			{
+				"name": "Vendor Project",
+				"type": "string"
+			},
+			{
+				"name": "Product",
+				"type": "string"
+			},
+			{
+				"name": "Vulnerability Name",
+				"type": "string"
+			},
+			{
+				"name": "Date Added",
+				"type": "string"
+			},
+			{
+				"name": "Short Description",
+				"type": "string"
+			},
+			{
+				"name": "Required Action",
+				"type": "string"
+			},
+			{
+				"name": "Due Date",
+				"type": "string"
+			},
+			{
+				"name": "Notes",
+				"type": "string"
+			}
+		]
+	}
+}
