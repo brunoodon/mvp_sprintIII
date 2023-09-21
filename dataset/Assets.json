@@ -1,0 +1,40 @@
+{
+	"name": "Assets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mvp_puc_ftp",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"fileName": "assets.csv",
+				"folderPath": "/home/odon"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "application",
+				"type": "String"
+			},
+			{
+				"name": "ip",
+				"type": "String"
+			},
+			{
+				"name": "hostname",
+				"type": "String"
+			},
+			{
+				"name": "dep",
+				"type": "String"
+			}
+		]
+	}
+}
