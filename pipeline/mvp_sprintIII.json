@@ -27,8 +27,8 @@
 				}
 			},
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "Spark job definition1",
+				"type": "SparkJob",
 				"dependsOn": [
 					{
 						"activity": "Data flow1",
@@ -44,10 +44,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
-				"typeProperties": {
-					"enableStaging": false
-				}
+				"userProperties": []
 			}
 		],
 		"annotations": []
