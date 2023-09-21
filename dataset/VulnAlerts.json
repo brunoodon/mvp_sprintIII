@@ -1,0 +1,68 @@
+{
+	"name": "VulnAlerts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Delta",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLakeDataset",
+		"typeProperties": {
+			"table": "VULN_ALERTS"
+		},
+		"schema": [
+			{
+				"name": "APPLICATION",
+				"type": "string"
+			},
+			{
+				"name": "IP",
+				"type": "string"
+			},
+			{
+				"name": "HOSTNAME",
+				"type": "string"
+			},
+			{
+				"name": "DEP",
+				"type": "string"
+			},
+			{
+				"name": "CVE",
+				"type": "string"
+			},
+			{
+				"name": "VENDOR",
+				"type": "string"
+			},
+			{
+				"name": "PRODUCT",
+				"type": "string"
+			},
+			{
+				"name": "VULN_NAME",
+				"type": "string"
+			},
+			{
+				"name": "DATE_ADDED",
+				"type": "string"
+			},
+			{
+				"name": "DESCRIPTION",
+				"type": "string"
+			},
+			{
+				"name": "REQUIRED_ACTION",
+				"type": "string"
+			},
+			{
+				"name": "DUE_DATE",
+				"type": "string"
+			},
+			{
+				"name": "NOTES",
+				"type": "string"
+			}
+		]
+	}
+}
