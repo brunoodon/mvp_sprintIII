@@ -27,8 +27,8 @@
 				}
 			},
 			{
-				"name": "Spark job definition1",
-				"type": "SparkJob",
+				"name": "Spark1",
+				"type": "HDInsightSpark",
 				"dependsOn": [
 					{
 						"activity": "Data flow1",
