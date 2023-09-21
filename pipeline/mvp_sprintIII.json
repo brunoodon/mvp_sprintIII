@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Vuln_Alerts",
-				"type": "DatabricksNotebook",
+				"name": "VulnerabilityAlertsFlow",
+				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -15,11 +15,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/bruno.odon@gmail.com/MVP - Sprint III"
-				},
-				"linkedServiceName": {
-					"referenceName": "mvp_sprintIII_dw",
-					"type": "LinkedServiceReference"
+					"dataflow": {
+						"referenceName": "Vulnerability_alerts",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
