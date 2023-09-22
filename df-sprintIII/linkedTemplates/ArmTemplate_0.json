@@ -536,9 +536,8 @@
 				"typeProperties": {
 					"recurrence": {
 						"frequency": "Minute",
-						"interval": 15,
+						"interval": 5,
 						"startTime": "2023-09-22T01:04:00Z",
-						"endTime": "2023-09-23T01:04:00Z",
 						"timeZone": "UTC"
 					}
 				}
