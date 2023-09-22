@@ -74,7 +74,7 @@
 								"datasetParameters": {
 									"Assets": {},
 									"KEV": {},
-									"VulnerabilityAlerts": {}
+									"BigTechsVulnsDF": {}
 								}
 							},
 							"staging": {},
@@ -207,152 +207,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/VulnAlerts')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Delta",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureDatabricksDeltaLakeDataset",
-				"typeProperties": {
-					"table": "VULN_ALERTS"
-				},
-				"schema": [
-					{
-						"name": "APPLICATION",
-						"type": "string"
-					},
-					{
-						"name": "IP",
-						"type": "string"
-					},
-					{
-						"name": "HOSTNAME",
-						"type": "string"
-					},
-					{
-						"name": "DEP",
-						"type": "string"
-					},
-					{
-						"name": "CVE",
-						"type": "string"
-					},
-					{
-						"name": "VENDOR",
-						"type": "string"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "string"
-					},
-					{
-						"name": "VULN_NAME",
-						"type": "string"
-					},
-					{
-						"name": "DATE_ADDED",
-						"type": "string"
-					},
-					{
-						"name": "DESCRIPTION",
-						"type": "string"
-					},
-					{
-						"name": "REQUIRED_ACTION",
-						"type": "string"
-					},
-					{
-						"name": "DUE_DATE",
-						"type": "string"
-					},
-					{
-						"name": "NOTES",
-						"type": "string"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Delta')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/VulnAlertsDF')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Delta",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureDatabricksDeltaLakeDataset",
-				"typeProperties": {
-					"table": "vulnerability_alerts_schema"
-				},
-				"schema": [
-					{
-						"name": "application",
-						"type": "string"
-					},
-					{
-						"name": "ip",
-						"type": "string"
-					},
-					{
-						"name": "hostname",
-						"type": "string"
-					},
-					{
-						"name": "dep",
-						"type": "string"
-					},
-					{
-						"name": "CVE ID",
-						"type": "string"
-					},
-					{
-						"name": "Vendor Project",
-						"type": "string"
-					},
-					{
-						"name": "Product",
-						"type": "string"
-					},
-					{
-						"name": "Vulnerability Name",
-						"type": "string"
-					},
-					{
-						"name": "Date Added",
-						"type": "string"
-					},
-					{
-						"name": "Short Description",
-						"type": "string"
-					},
-					{
-						"name": "Required Action",
-						"type": "string"
-					},
-					{
-						"name": "Due Date",
-						"type": "string"
-					},
-					{
-						"name": "Notes",
-						"type": "string"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Delta')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Vulnerability_Alerts')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -366,7 +220,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "VulnerabilityAlerts_Schema.csv",
+						"fileName": "VulnerabilityAlerts.csv",
 						"folderPath": "/home/odon"
 					},
 					"columnDelimiter": ",",
@@ -581,12 +435,25 @@
 								"referenceName": "Vulnerability_Alerts",
 								"type": "DatasetReference"
 							},
-							"name": "VulnerabilityAlerts"
+							"name": "BigTechsVulnsDF",
+							"description": "Export data to BigTechsVulnsDF"
 						}
 					],
 					"transformations": [
 						{
-							"name": "SearchVulns"
+							"name": "SearchHostsVulns"
+						},
+						{
+							"name": "MicrosoftVulns"
+						},
+						{
+							"name": "AppleVulns"
+						},
+						{
+							"name": "GoogleVulns"
+						},
+						{
+							"name": "BigTechsVulns"
 						}
 					],
 					"scriptLines": [
@@ -616,8 +483,12 @@
 						"Assets, KEV lookup(application == Product,",
 						"     multiple: false,",
 						"     pickup: 'any',",
-						"     broadcast: 'auto')~> SearchVulns",
-						"SearchVulns sink(allowSchemaDrift: true,",
+						"     broadcast: 'auto')~> SearchHostsVulns",
+						"SearchHostsVulns filter(equalsIgnoreCase({Vendor Project}, 'Microsoft')) ~> MicrosoftVulns",
+						"SearchHostsVulns filter(equalsIgnoreCase({Vendor Project}, 'Apple')) ~> AppleVulns",
+						"SearchHostsVulns filter(equalsIgnoreCase({Vendor Project}, 'Google')) ~> GoogleVulns",
+						"AppleVulns, MicrosoftVulns, GoogleVulns union(byName: true)~> BigTechsVulns",
+						"BigTechsVulns sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          application as string,",
@@ -635,7 +506,7 @@
 						"          Notes as string",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
+						"     skipDuplicateMapOutputs: true) ~> BigTechsVulnsDF"
 					]
 				}
 			},
@@ -643,6 +514,37 @@
 				"[concat(variables('factoryId'), '/datasets/Assets')]",
 				"[concat(variables('factoryId'), '/datasets/KEV')]",
 				"[concat(variables('factoryId'), '/datasets/Vulnerability_Alerts')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ETL')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "mvp_sprintIII",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2023-09-22T01:04:00Z",
+						"endTime": "2023-09-23T01:04:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/mvp_sprintIII')]"
 			]
 		}
 	]
