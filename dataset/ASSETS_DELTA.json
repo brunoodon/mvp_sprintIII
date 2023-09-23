@@ -1,0 +1,32 @@
+{
+	"name": "ASSETS_DELTA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Delta",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLakeDataset",
+		"typeProperties": {
+			"table": "ASSETS"
+		},
+		"schema": [
+			{
+				"name": "APPLICATION",
+				"type": "string"
+			},
+			{
+				"name": "IP",
+				"type": "string"
+			},
+			{
+				"name": "HOSTNAME",
+				"type": "string"
+			},
+			{
+				"name": "DEP",
+				"type": "string"
+			}
+		]
+	}
+}
