@@ -11,7 +11,7 @@
 			"location": {
 				"type": "SftpLocation",
 				"fileName": "known_exploited_vulnerabilities.csv",
-				"folderPath": "/home/odon"
+				"folderPath": "/tmp"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
