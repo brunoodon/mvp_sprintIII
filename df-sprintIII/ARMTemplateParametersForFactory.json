@@ -17,6 +17,9 @@
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://sprintIIIkey.vault.azure.net/"
 		},
+		"Elasticsearch_properties_typeProperties_url": {
+			"value": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
+		},
 		"assets_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
 		},

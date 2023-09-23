@@ -23,6 +23,10 @@
 			"type": "string",
 			"defaultValue": "https://sprintIIIkey.vault.azure.net/"
 		},
+		"Elasticsearch_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
+		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
@@ -55,7 +59,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "VulnerabilityAlertsFlow",
+						"name": "Vulnerability_Alerts",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -74,7 +78,7 @@
 								"datasetParameters": {
 									"Assets": {},
 									"KEV": {},
-									"BigTechsVulnsDF": {}
+									"VulnerabilityAlerts": {}
 								}
 							},
 							"staging": {},
@@ -111,7 +115,7 @@
 					"location": {
 						"type": "SftpLocation",
 						"fileName": "assets.csv",
-						"folderPath": "/home/odon"
+						"folderPath": "/tmp"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -156,7 +160,7 @@
 					"location": {
 						"type": "SftpLocation",
 						"fileName": "known_exploited_vulnerabilities.csv",
-						"folderPath": "/home/odon"
+						"folderPath": "/tmp"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -204,6 +208,96 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VulnAlerts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Elasticsearch",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Elasticsearch')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VulnAlertsBigtechs')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Elasticsearch",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Application": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"IP": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"Hostname": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"Dep": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"CVE": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"Vendor": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"Product": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"VulnName": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"DateAdded": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"Description": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"RequiredAction": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"DueDate": {
+						"type": "string",
+						"defaultValue": "Null"
+					},
+					"Notes": {
+						"type": "string",
+						"defaultValue": "Null"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Elasticsearch')]"
 			]
 		},
 		{
@@ -319,6 +413,21 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Elasticsearch')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('Elasticsearch_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/assets')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -412,7 +521,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -461,12 +570,11 @@
 					],
 					"sinks": [
 						{
-							"dataset": {
-								"referenceName": "Vulnerability_Alerts",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "mvp_puc_ftp",
+								"type": "LinkedServiceReference"
 							},
-							"name": "BigTechsVulnsDF",
-							"description": "Export data to BigTechsVulnsDF"
+							"name": "VulnerabilityAlerts"
 						}
 					],
 					"transformations": [
@@ -520,30 +628,17 @@
 						"AppleVulns, MicrosoftVulns, GoogleVulns union(byName: true)~> BigTechsVulns",
 						"BigTechsVulns sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     input(",
-						"          application as string,",
-						"          ip as string,",
-						"          hostname as string,",
-						"          dep as string,",
-						"          {CVE ID} as string,",
-						"          {Vendor Project} as string,",
-						"          Product as string,",
-						"          {Vulnerability Name} as string,",
-						"          {Date Added} as string,",
-						"          {Short Description} as string,",
-						"          {Required Action} as string,",
-						"          {Due Date} as string,",
-						"          Notes as string",
-						"     ),",
+						"     format: 'json',",
+						"     folderPath: 'tmp',",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> BigTechsVulnsDF"
+						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Assets')]",
 				"[concat(variables('factoryId'), '/datasets/KEV')]",
-				"[concat(variables('factoryId'), '/datasets/Vulnerability_Alerts')]"
+				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
 			]
 		}
 	]
