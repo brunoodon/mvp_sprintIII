@@ -23,31 +23,40 @@
 				"defaultValue": "Null"
 			},
 			"CVE": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"Vendor": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"Product": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"VulnName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"DateAdded": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"Description": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"RequiredAction": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"DueDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"Notes": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			}
 		},
 		"annotations": [],
