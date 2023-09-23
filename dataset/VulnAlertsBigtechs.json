@@ -1,0 +1,12 @@
+{
+	"name": "VulnAlertsBigtechs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Elasticsearch",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
