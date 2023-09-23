@@ -11,7 +11,7 @@
 			"location": {
 				"type": "SftpLocation",
 				"fileName": "assets.csv",
-				"folderPath": "/home/odon"
+				"folderPath": "/tmp"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
