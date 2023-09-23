@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "VulnerabilityAlertsFlow",
+				"name": "Vulnerability_Alerts",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
