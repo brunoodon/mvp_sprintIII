@@ -5,6 +5,23 @@
 			"referenceName": "Elasticsearch",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"Application": {
+				"type": "string"
+			},
+			"IP": {
+				"type": "string"
+			},
+			"Hostname": {
+				"type": "string"
+			},
+			"Dep": {
+				"type": "string"
+			},
+			"CVE": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"schema": []
