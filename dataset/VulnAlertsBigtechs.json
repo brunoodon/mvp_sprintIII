@@ -20,6 +20,27 @@
 			},
 			"CVE": {
 				"type": "string"
+			},
+			"Vendor": {
+				"type": "string"
+			},
+			"Product": {
+				"type": "string"
+			},
+			"VulnName": {
+				"type": "string"
+			},
+			"DateAdded": {
+				"type": "string"
+			},
+			"Description": {
+				"type": "string"
+			},
+			"RequiredAction": {
+				"type": "string"
+			},
+			"DueDate": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
