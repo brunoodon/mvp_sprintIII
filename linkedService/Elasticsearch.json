@@ -1,0 +1,12 @@
+{
+	"name": "Elasticsearch",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
