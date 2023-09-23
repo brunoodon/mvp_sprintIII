@@ -7,16 +7,20 @@
 		},
 		"parameters": {
 			"Application": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"IP": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"Hostname": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"Dep": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Null"
 			},
 			"CVE": {
 				"type": "string"
