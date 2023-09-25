@@ -4,20 +4,24 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Nome do Data Factory",
 			"defaultValue": "df-sprintIII"
 		},
 		"Delta_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'Delta'"
+			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'Delta'"
 		},
 		"mvp_puc_ftp_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'mvp_puc_ftp'"
+			"metadata": "Cadeia de caracteres segura para 'password' de 'mvp_puc_ftp'"
 		},
 		"mvp_sprintIII_dw_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'mvp_sprintIII_dw'"
+			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'mvp_sprintIII_dw'"
+		},
+		"mv_puc_ftp_password": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'password' de 'mv_puc_ftp'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -46,6 +50,14 @@
 		"vulnerability_alerts_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
+		},
+		"mv_puc_ftp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "mvp-puc.brunoodon.com.br"
+		},
+		"mv_puc_ftp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "odon"
 		}
 	},
 	"variables": {
@@ -59,7 +71,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Vulnerability_Alerts",
+						"name": "Vulns_Alerts_Bigtechs",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -98,6 +110,43 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/Vulnerability_alerts')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ASSETS_DELTA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Delta",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureDatabricksDeltaLakeDataset",
+				"typeProperties": {
+					"table": "ASSETS"
+				},
+				"schema": [
+					{
+						"name": "APPLICATION",
+						"type": "string"
+					},
+					{
+						"name": "IP",
+						"type": "string"
+					},
+					{
+						"name": "HOSTNAME",
+						"type": "string"
+					},
+					{
+						"name": "DEP",
+						"type": "string"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Delta')]"
 			]
 		},
 		{
@@ -208,6 +257,63 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/KEV_DELTA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Delta",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureDatabricksDeltaLakeDataset",
+				"typeProperties": {
+					"table": "KEV"
+				},
+				"schema": [
+					{
+						"name": "CVE",
+						"type": "string"
+					},
+					{
+						"name": "VENDOR",
+						"type": "string"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "string"
+					},
+					{
+						"name": "VULN_NAME",
+						"type": "string"
+					},
+					{
+						"name": "DATE_ADDED",
+						"type": "string"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "string"
+					},
+					{
+						"name": "REQUIRED_ACTION",
+						"type": "string"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "string"
+					},
+					{
+						"name": "NOTES",
+						"type": "string"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Delta')]"
 			]
 		},
 		{
@@ -521,7 +627,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -535,7 +641,7 @@
 				"typeProperties": {
 					"recurrence": {
 						"frequency": "Minute",
-						"interval": 5,
+						"interval": 50000,
 						"startTime": "2023-09-22T01:04:00Z",
 						"timeZone": "UTC"
 					}
@@ -570,9 +676,9 @@
 					],
 					"sinks": [
 						{
-							"linkedService": {
-								"referenceName": "mvp_puc_ftp",
-								"type": "LinkedServiceReference"
+							"dataset": {
+								"referenceName": "Vulnerability_Alerts",
+								"type": "DatasetReference"
 							},
 							"name": "VulnerabilityAlerts"
 						}
@@ -628,8 +734,21 @@
 						"AppleVulns, MicrosoftVulns, GoogleVulns union(byName: true)~> BigTechsVulns",
 						"BigTechsVulns sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     format: 'json',",
-						"     folderPath: 'tmp',",
+						"     input(",
+						"          application as string,",
+						"          ip as string,",
+						"          hostname as string,",
+						"          dep as string,",
+						"          {CVE ID} as string,",
+						"          {Vendor Project} as string,",
+						"          Product as string,",
+						"          {Vulnerability Name} as string,",
+						"          {Date Added} as string,",
+						"          {Short Description} as string,",
+						"          {Required Action} as string,",
+						"          {Due Date} as string,",
+						"          Notes as string",
+						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
 					]
@@ -638,8 +757,30 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Assets')]",
 				"[concat(variables('factoryId'), '/datasets/KEV')]",
-				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
+				"[concat(variables('factoryId'), '/datasets/Vulnerability_Alerts')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/mv_puc_ftp')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FtpServer",
+				"typeProperties": {
+					"host": "[parameters('mv_puc_ftp_properties_typeProperties_host')]",
+					"port": 21,
+					"enableSsl": false,
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Basic",
+					"userName": "[parameters('mv_puc_ftp_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('mv_puc_ftp_password')]"
+					}
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

@@ -4,20 +4,24 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Nome do Data Factory",
 			"defaultValue": "df-sprintIII"
 		},
 		"Delta_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'Delta'"
+			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'Delta'"
 		},
 		"mvp_puc_ftp_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'mvp_puc_ftp'"
+			"metadata": "Cadeia de caracteres segura para 'password' de 'mvp_puc_ftp'"
 		},
 		"mvp_sprintIII_dw_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'mvp_sprintIII_dw'"
+			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'mvp_sprintIII_dw'"
+		},
+		"mv_puc_ftp_password": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'password' de 'mv_puc_ftp'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -47,13 +51,21 @@
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
 		},
+		"mv_puc_ftp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "mvp-puc.brunoodon.com.br"
+		},
+		"mv_puc_ftp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "odon"
+		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI to storage account containing linked ARM templates"
+			"metadata": "URI para a conta de armazenamento contendo os modelos do ARM vinculados"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Sas token to storage account containing linked ARM templates"
+			"metadata": "Token SAS para a conta de armazenamento contendo modelos do ARM vinculados"
 		}
 	},
 	"variables": {
@@ -83,6 +95,9 @@
 					"mvp_sprintIII_dw_accessToken": {
 						"value": "[parameters('mvp_sprintIII_dw_accessToken')]"
 					},
+					"mv_puc_ftp_password": {
+						"value": "[parameters('mv_puc_ftp_password')]"
+					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					},
@@ -103,6 +118,12 @@
 					},
 					"vulnerability_alerts_properties_typeProperties_url": {
 						"value": "[parameters('vulnerability_alerts_properties_typeProperties_url')]"
+					},
+					"mv_puc_ftp_properties_typeProperties_host": {
+						"value": "[parameters('mv_puc_ftp_properties_typeProperties_host')]"
+					},
+					"mv_puc_ftp_properties_typeProperties_userName": {
+						"value": "[parameters('mv_puc_ftp_properties_typeProperties_userName')]"
 					}
 				}
 			},
