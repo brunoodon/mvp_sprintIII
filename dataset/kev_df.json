@@ -1,0 +1,60 @@
+{
+	"name": "kev_df",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobStorageMVPIII",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "known_exploited_vulnerabilities.csv",
+				"container": "mvp"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "CVE ID",
+				"type": "String"
+			},
+			{
+				"name": "Vendor Project",
+				"type": "String"
+			},
+			{
+				"name": "Product",
+				"type": "String"
+			},
+			{
+				"name": "Vulnerability Name",
+				"type": "String"
+			},
+			{
+				"name": "Date Added",
+				"type": "String"
+			},
+			{
+				"name": "Short Description",
+				"type": "String"
+			},
+			{
+				"name": "Required Action",
+				"type": "String"
+			},
+			{
+				"name": "Due Date",
+				"type": "String"
+			},
+			{
+				"name": "Notes",
+				"type": "String"
+			}
+		]
+	}
+}
