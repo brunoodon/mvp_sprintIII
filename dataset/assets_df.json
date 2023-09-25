@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText1",
+	"name": "assets_df",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "BlobStorageMVPIII",
