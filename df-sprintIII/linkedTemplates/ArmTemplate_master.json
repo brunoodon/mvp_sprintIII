@@ -4,28 +4,32 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Nome do Data Factory",
+			"metadata": "Data Factory name",
 			"defaultValue": "df-sprintIII"
 		},
 		"Delta_accessToken": {
 			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'Delta'"
-		},
-		"mvp_puc_ftp_password": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'password' de 'mvp_puc_ftp'"
-		},
-		"mvp_sprintIII_dw_accessToken": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'mvp_sprintIII_dw'"
+			"metadata": "Secure string for 'accessToken' of 'Delta'"
 		},
 		"mv_puc_ftp_password": {
 			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'password' de 'mv_puc_ftp'"
+			"metadata": "Secure string for 'password' of 'mv_puc_ftp'"
+		},
+		"mvp_puc_ftp_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'mvp_puc_ftp'"
+		},
+		"mvp_sprintIII_dw_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'mvp_sprintIII_dw'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://sprintIIIkey.vault.azure.net/"
+		},
+		"BlobStorageMVPIII_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'BlobStorageMVPIII'"
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
@@ -39,6 +43,14 @@
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/known_exploited_vulnerabilities.csv"
 		},
+		"mv_puc_ftp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "mvp-puc.brunoodon.com.br"
+		},
+		"mv_puc_ftp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "odon"
+		},
 		"mvp_puc_ftp_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "mvp-puc.brunoodon.com.br"
@@ -51,21 +63,13 @@
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
 		},
-		"mv_puc_ftp_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "mvp-puc.brunoodon.com.br"
-		},
-		"mv_puc_ftp_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "odon"
-		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI para a conta de armazenamento contendo os modelos do ARM vinculados"
+			"metadata": "URI to storage account containing linked ARM templates"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Token SAS para a conta de armazenamento contendo modelos do ARM vinculados"
+			"metadata": "Sas token to storage account containing linked ARM templates"
 		}
 	},
 	"variables": {
@@ -89,17 +93,20 @@
 					"Delta_accessToken": {
 						"value": "[parameters('Delta_accessToken')]"
 					},
+					"mv_puc_ftp_password": {
+						"value": "[parameters('mv_puc_ftp_password')]"
+					},
 					"mvp_puc_ftp_password": {
 						"value": "[parameters('mvp_puc_ftp_password')]"
 					},
 					"mvp_sprintIII_dw_accessToken": {
 						"value": "[parameters('mvp_sprintIII_dw_accessToken')]"
 					},
-					"mv_puc_ftp_password": {
-						"value": "[parameters('mv_puc_ftp_password')]"
-					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
+					"BlobStorageMVPIII_sasUri": {
+						"value": "[parameters('BlobStorageMVPIII_sasUri')]"
 					},
 					"Elasticsearch_properties_typeProperties_url": {
 						"value": "[parameters('Elasticsearch_properties_typeProperties_url')]"
@@ -110,6 +117,12 @@
 					"known_exploited_vulnerabilities_properties_typeProperties_url": {
 						"value": "[parameters('known_exploited_vulnerabilities_properties_typeProperties_url')]"
 					},
+					"mv_puc_ftp_properties_typeProperties_host": {
+						"value": "[parameters('mv_puc_ftp_properties_typeProperties_host')]"
+					},
+					"mv_puc_ftp_properties_typeProperties_userName": {
+						"value": "[parameters('mv_puc_ftp_properties_typeProperties_userName')]"
+					},
 					"mvp_puc_ftp_properties_typeProperties_host": {
 						"value": "[parameters('mvp_puc_ftp_properties_typeProperties_host')]"
 					},
@@ -118,16 +131,30 @@
 					},
 					"vulnerability_alerts_properties_typeProperties_url": {
 						"value": "[parameters('vulnerability_alerts_properties_typeProperties_url')]"
-					},
-					"mv_puc_ftp_properties_typeProperties_host": {
-						"value": "[parameters('mv_puc_ftp_properties_typeProperties_host')]"
-					},
-					"mv_puc_ftp_properties_typeProperties_userName": {
-						"value": "[parameters('mv_puc_ftp_properties_typeProperties_userName')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "df-sprintIII_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-sprintIII_ArmTemplate_0')]"
+			]
 		}
 	]
 }

@@ -4,28 +4,32 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Nome do Data Factory",
+			"metadata": "Data Factory name",
 			"defaultValue": "df-sprintIII"
 		},
 		"Delta_accessToken": {
 			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'Delta'"
-		},
-		"mvp_puc_ftp_password": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'password' de 'mvp_puc_ftp'"
-		},
-		"mvp_sprintIII_dw_accessToken": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'mvp_sprintIII_dw'"
+			"metadata": "Secure string for 'accessToken' of 'Delta'"
 		},
 		"mv_puc_ftp_password": {
 			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'password' de 'mv_puc_ftp'"
+			"metadata": "Secure string for 'password' of 'mv_puc_ftp'"
+		},
+		"mvp_puc_ftp_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'mvp_puc_ftp'"
+		},
+		"mvp_sprintIII_dw_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'mvp_sprintIII_dw'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://sprintIIIkey.vault.azure.net/"
+		},
+		"BlobStorageMVPIII_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'BlobStorageMVPIII'"
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
@@ -39,6 +43,14 @@
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/known_exploited_vulnerabilities.csv"
 		},
+		"mv_puc_ftp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "mvp-puc.brunoodon.com.br"
+		},
+		"mv_puc_ftp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "odon"
+		},
 		"mvp_puc_ftp_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "mvp-puc.brunoodon.com.br"
@@ -50,14 +62,6 @@
 		"vulnerability_alerts_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
-		},
-		"mv_puc_ftp_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "mvp-puc.brunoodon.com.br"
-		},
-		"mv_puc_ftp_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "odon"
 		}
 	},
 	"variables": {
@@ -73,6 +77,19 @@
 				"type": "AzureKeyVault",
 				"typeProperties": {
 					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BlobStorageMVPIII')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": "[parameters('BlobStorageMVPIII_sasUri')]"
 				}
 			},
 			"dependsOn": []
@@ -141,6 +158,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/mv_puc_ftp')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FtpServer",
+				"typeProperties": {
+					"host": "[parameters('mv_puc_ftp_properties_typeProperties_host')]",
+					"port": 21,
+					"enableSsl": false,
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Basic",
+					"userName": "[parameters('mv_puc_ftp_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('mv_puc_ftp_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/mvp_puc_ftp')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -194,28 +233,6 @@
 					"url": "[parameters('vulnerability_alerts_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/mv_puc_ftp')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FtpServer",
-				"typeProperties": {
-					"host": "[parameters('mv_puc_ftp_properties_typeProperties_host')]",
-					"port": 21,
-					"enableSsl": false,
-					"enableServerCertificateValidation": false,
-					"authenticationType": "Basic",
-					"userName": "[parameters('mv_puc_ftp_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('mv_puc_ftp_password')]"
-					}
 				}
 			},
 			"dependsOn": []
@@ -596,190 +613,194 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Vulnerability_alerts')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
+			"name": "[concat(parameters('factoryName'), '/Vulns_alerts_df')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Assets",
-								"type": "DatasetReference"
-							},
-							"name": "Assets"
-						},
-						{
-							"dataset": {
-								"referenceName": "KEV",
-								"type": "DatasetReference"
-							},
-							"name": "KEV"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Vulnerability_Alerts",
-								"type": "DatasetReference"
-							},
-							"name": "VulnerabilityAlerts"
-						}
-					],
-					"transformations": [
-						{
-							"name": "SearchHostsVulns"
-						},
-						{
-							"name": "MicrosoftVulns"
-						},
-						{
-							"name": "AppleVulns"
-						},
-						{
-							"name": "GoogleVulns"
-						},
-						{
-							"name": "BigTechsVulns"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          application as string,",
-						"          ip as string,",
-						"          hostname as string,",
-						"          dep as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> Assets",
-						"source(output(",
-						"          {CVE ID} as string,",
-						"          {Vendor Project} as string,",
-						"          Product as string,",
-						"          {Vulnerability Name} as string,",
-						"          {Date Added} as string,",
-						"          {Short Description} as string,",
-						"          {Required Action} as string,",
-						"          {Due Date} as string,",
-						"          Notes as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> KEV",
-						"Assets, KEV lookup(application == Product,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> SearchHostsVulns",
-						"SearchHostsVulns filter(equalsIgnoreCase({Vendor Project}, 'Microsoft')) ~> MicrosoftVulns",
-						"SearchHostsVulns filter(equalsIgnoreCase({Vendor Project}, 'Apple')) ~> AppleVulns",
-						"SearchHostsVulns filter(equalsIgnoreCase({Vendor Project}, 'Google')) ~> GoogleVulns",
-						"AppleVulns, MicrosoftVulns, GoogleVulns union(byName: true)~> BigTechsVulns",
-						"BigTechsVulns sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          application as string,",
-						"          ip as string,",
-						"          hostname as string,",
-						"          dep as string,",
-						"          {CVE ID} as string,",
-						"          {Vendor Project} as string,",
-						"          Product as string,",
-						"          {Vulnerability Name} as string,",
-						"          {Date Added} as string,",
-						"          {Short Description} as string,",
-						"          {Required Action} as string,",
-						"          {Due Date} as string,",
-						"          Notes as string",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Assets')]",
-				"[concat(variables('factoryId'), '/datasets/KEV')]",
-				"[concat(variables('factoryId'), '/datasets/Vulnerability_Alerts')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/mvp_sprintIII')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Vulns_Alerts_Bigtechs",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "Vulnerability_alerts",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Assets": {},
-									"KEV": {},
-									"VulnerabilityAlerts": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
+				"linkedServiceName": {
+					"referenceName": "BlobStorageMVPIII",
+					"type": "LinkedServiceReference"
 				},
-				"annotations": []
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "VulnerabilityAlerts.csv",
+						"container": "mvp"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "application",
+						"type": "String"
+					},
+					{
+						"name": "ip",
+						"type": "String"
+					},
+					{
+						"name": "hostname",
+						"type": "String"
+					},
+					{
+						"name": "dep",
+						"type": "String"
+					},
+					{
+						"name": "CVE ID",
+						"type": "String"
+					},
+					{
+						"name": "Vendor Project",
+						"type": "String"
+					},
+					{
+						"name": "Product",
+						"type": "String"
+					},
+					{
+						"name": "Vulnerability Name",
+						"type": "String"
+					},
+					{
+						"name": "Date Added",
+						"type": "String"
+					},
+					{
+						"name": "Short Description",
+						"type": "String"
+					},
+					{
+						"name": "Required Action",
+						"type": "String"
+					},
+					{
+						"name": "Due Date",
+						"type": "String"
+					},
+					{
+						"name": "Notes",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/Vulnerability_alerts')]"
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageMVPIII')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ETL')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/assets_df')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobStorageMVPIII",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "mvp_sprintIII",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"recurrence": {
-						"frequency": "Minute",
-						"interval": 50000,
-						"startTime": "2023-09-22T01:04:00Z",
-						"timeZone": "UTC"
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "assets.csv",
+						"container": "mvp"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "application",
+						"type": "String"
+					},
+					{
+						"name": "ip",
+						"type": "String"
+					},
+					{
+						"name": "hostname",
+						"type": "String"
+					},
+					{
+						"name": "dep",
+						"type": "String"
 					}
-				}
+				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/mvp_sprintIII')]"
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageMVPIII')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/kev_df')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobStorageMVPIII",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "known_exploited_vulnerabilities.csv",
+						"container": "mvp"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CVE ID",
+						"type": "String"
+					},
+					{
+						"name": "Vendor Project",
+						"type": "String"
+					},
+					{
+						"name": "Product",
+						"type": "String"
+					},
+					{
+						"name": "Vulnerability Name",
+						"type": "String"
+					},
+					{
+						"name": "Date Added",
+						"type": "String"
+					},
+					{
+						"name": "Short Description",
+						"type": "String"
+					},
+					{
+						"name": "Required Action",
+						"type": "String"
+					},
+					{
+						"name": "Due Date",
+						"type": "String"
+					},
+					{
+						"name": "Notes",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageMVPIII')]"
 			]
 		}
 	]

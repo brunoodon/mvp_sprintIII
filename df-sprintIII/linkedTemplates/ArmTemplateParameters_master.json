@@ -8,17 +8,20 @@
 		"Delta_accessToken": {
 			"value": ""
 		},
+		"mv_puc_ftp_password": {
+			"value": ""
+		},
 		"mvp_puc_ftp_password": {
 			"value": ""
 		},
 		"mvp_sprintIII_dw_accessToken": {
 			"value": ""
 		},
-		"mv_puc_ftp_password": {
-			"value": ""
-		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://sprintIIIkey.vault.azure.net/"
+		},
+		"BlobStorageMVPIII_sasUri": {
+			"value": ""
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"value": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
@@ -29,6 +32,12 @@
 		"known_exploited_vulnerabilities_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/known_exploited_vulnerabilities.csv"
 		},
+		"mv_puc_ftp_properties_typeProperties_host": {
+			"value": "mvp-puc.brunoodon.com.br"
+		},
+		"mv_puc_ftp_properties_typeProperties_userName": {
+			"value": "odon"
+		},
 		"mvp_puc_ftp_properties_typeProperties_host": {
 			"value": "mvp-puc.brunoodon.com.br"
 		},
@@ -37,12 +46,6 @@
 		},
 		"vulnerability_alerts_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
-		},
-		"mv_puc_ftp_properties_typeProperties_host": {
-			"value": "mvp-puc.brunoodon.com.br"
-		},
-		"mv_puc_ftp_properties_typeProperties_userName": {
-			"value": "odon"
 		},
 		"containerUri": {
 			"value": ""
