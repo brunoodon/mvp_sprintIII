@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Vulnerability_Alerts",
+				"name": "Vulns_Alerts_Bigtechs",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
