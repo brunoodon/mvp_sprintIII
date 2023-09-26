@@ -39,6 +39,10 @@
 			"type": "string",
 			"defaultValue": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
 		},
+		"NVD_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://services.nvd.nist.gov/rest/json/cves/2.0"
+		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
@@ -118,6 +122,9 @@
 					"Kev_Catalog_properties_typeProperties_url": {
 						"value": "[parameters('Kev_Catalog_properties_typeProperties_url')]"
 					},
+					"NVD_properties_typeProperties_url": {
+						"value": "[parameters('NVD_properties_typeProperties_url')]"
+					},
 					"assets_properties_typeProperties_url": {
 						"value": "[parameters('assets_properties_typeProperties_url')]"
 					},
@@ -142,6 +149,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "df-sprintIII_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-sprintIII_ArmTemplate_0')]"
+			]
 		}
 	]
 }

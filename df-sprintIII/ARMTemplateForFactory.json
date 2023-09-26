@@ -39,6 +39,10 @@
 			"type": "string",
 			"defaultValue": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
 		},
+		"NVD_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://services.nvd.nist.gov/rest/json/cves/2.0"
+		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
@@ -257,6 +261,28 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Kev_Catalog')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NVD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "NVD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/NVD')]"
 			]
 		},
 		{
@@ -609,6 +635,21 @@
 				"type": "HttpServer",
 				"typeProperties": {
 					"url": "[parameters('Kev_Catalog_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NVD')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('NVD_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
