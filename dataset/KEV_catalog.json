@@ -1,0 +1,21 @@
+{
+	"name": "KEV_catalog",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Kev_Catalog",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
