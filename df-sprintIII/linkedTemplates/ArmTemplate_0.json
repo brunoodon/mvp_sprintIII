@@ -631,7 +631,21 @@
 								"datasetParameters": {
 									"Assets": {},
 									"KEV": {},
-									"IngestToDW": {}
+									"IngestToDW": {
+										"Application": "Null",
+										"IP": "Null",
+										"Hostname": "Null",
+										"Dep": "Null",
+										"CVE": "Null",
+										"Vendor": "Null",
+										"Product": "Null",
+										"VulnName": "Null",
+										"DateAdded": "Null",
+										"Description": "Null",
+										"RequiredAction": "Null",
+										"DueDate": "Null",
+										"Notes": "Null"
+									}
 								}
 							},
 							"staging": {},
