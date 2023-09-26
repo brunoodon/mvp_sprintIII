@@ -104,36 +104,6 @@
 							},
 							"traceLevel": "Fine"
 						}
-					},
-					{
-						"name": "ES Ingest",
-						"description": "Inesto to Elasticsearch cluster",
-						"type": "WebHook",
-						"dependsOn": [
-							{
-								"activity": "Vulns_Alerts_Bigtechs",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-df/_doc",
-							"method": "POST",
-							"headers": {
-								"Content-type": "application/json"
-							},
-							"body": {
-								"value": "@activity('Vulns_Alerts_Bigtechs').output",
-								"type": "Expression"
-							},
-							"timeout": "00:10:00"
-						}
 					}
 				],
 				"policy": {
@@ -165,7 +135,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/VulnAlertsBigtechs')]",
+			"name": "[concat(parameters('factoryName'), '/VulnAlertsES')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -480,7 +450,7 @@
 				"type": "RestService",
 				"typeProperties": {
 					"url": "[parameters('Elasticsearch_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
+					"enableServerCertificateValidation": false,
 					"authenticationType": "Anonymous"
 				}
 			},
@@ -651,11 +621,12 @@
 					],
 					"sinks": [
 						{
-							"linkedService": {
-								"referenceName": "BlobStorageMVPIII",
-								"type": "LinkedServiceReference"
+							"dataset": {
+								"referenceName": "VulnAlertsES",
+								"type": "DatasetReference"
 							},
-							"name": "VulnerabilityAlerts"
+							"name": "VulnerabilityAlerts",
+							"description": "Add data to ES Cluster"
 						}
 					],
 					"transformations": [
@@ -693,19 +664,24 @@
 						"     broadcast: 'auto')~> SearchVulns",
 						"SearchVulns sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     format: 'json',",
-						"     container: 'mvp',",
-						"     partitionFileNames:['VulnerabilityAlerts_DF.json'],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     insertHttpMethod: 'POST',",
+						"     timeout: 30,",
+						"     requestInterval: 0,",
+						"     headers: ['Content-type' -> 'application/json'],",
+						"     requestFormat: ['type' -> 'json', 'outputDateFormat' -> 'yyyy.MM.dd', 'outputTimestampFormat' -> 'yyyy.MM.dd'],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> VulnerabilityAlerts"
+						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/assets_df')]",
 				"[concat(variables('factoryId'), '/datasets/kev_df')]",
-				"[concat(variables('factoryId'), '/linkedServices/BlobStorageMVPIII')]"
+				"[concat(variables('factoryId'), '/datasets/VulnAlertsES')]"
 			]
 		}
 	]
