@@ -592,8 +592,6 @@
 						"     upsertable:false,",
 						"     insertHttpMethod: 'POST',",
 						"     timeout: 30,",
-						"     requestInterval: 0,",
-						"     headers: ['Content-type' -> 'application/json'],",
 						"     requestFormat: ['type' -> 'json', 'outputDateFormat' -> 'yyyy.MM.dd', 'outputTimestampFormat' -> 'yyyy.MM.dd'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
@@ -632,7 +630,21 @@
 								"datasetParameters": {
 									"Assets": {},
 									"KEV": {},
-									"VulnerabilityAlerts": {}
+									"VulnerabilityAlerts": {
+										"Application": "Null",
+										"IP": "Null",
+										"Hostname": "Null",
+										"Dep": "Null",
+										"CVE": "Null",
+										"Vendor": "Null",
+										"Product": "Null",
+										"VulnName": "Null",
+										"DateAdded": "Null",
+										"Description": "Null",
+										"RequiredAction": "Null",
+										"DueDate": "Null",
+										"Notes": "Null"
+									}
 								}
 							},
 							"staging": {},
