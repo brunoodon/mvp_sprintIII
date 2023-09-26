@@ -157,7 +157,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"Assets": {},
-									"KEV": {},
+									"KEVCatalog": {},
 									"IngestToDW": {
 										"Application": "Null",
 										"IP": "Null",
@@ -499,39 +499,39 @@
 				},
 				"schema": [
 					{
-						"name": "CVE ID",
+						"name": "cveID",
 						"type": "String"
 					},
 					{
-						"name": "Vendor Project",
+						"name": "vendorProject",
 						"type": "String"
 					},
 					{
-						"name": "Product",
+						"name": "product",
 						"type": "String"
 					},
 					{
-						"name": "Vulnerability Name",
+						"name": "vulnerabilityName",
 						"type": "String"
 					},
 					{
-						"name": "Date Added",
+						"name": "dateAdded",
 						"type": "String"
 					},
 					{
-						"name": "Short Description",
+						"name": "shortDescription",
 						"type": "String"
 					},
 					{
-						"name": "Required Action",
+						"name": "requiredAction",
 						"type": "String"
 					},
 					{
-						"name": "Due Date",
+						"name": "dueDate",
 						"type": "String"
 					},
 					{
-						"name": "Notes",
+						"name": "notes",
 						"type": "String"
 					}
 				]
@@ -775,7 +775,7 @@
 								"referenceName": "kev_df",
 								"type": "DatasetReference"
 							},
-							"name": "KEV"
+							"name": "KEVCatalog"
 						}
 					],
 					"sinks": [
@@ -807,26 +807,25 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> Assets",
 						"source(output(",
-						"          {CVE ID} as string,",
-						"          {Vendor Project} as string,",
-						"          Product as string,",
-						"          {Vulnerability Name} as string,",
-						"          {Date Added} as string,",
-						"          {Short Description} as string,",
-						"          {Required Action} as string,",
-						"          {Due Date} as string,",
-						"          Notes as string",
+						"          cveID as string,",
+						"          vendorProject as string,",
+						"          product as string,",
+						"          vulnerabilityName as string,",
+						"          dateAdded as string,",
+						"          shortDescription as string,",
+						"          requiredAction as string,",
+						"          dueDate as string,",
+						"          notes as string",
 						"     ),",
-						"     allowSchemaDrift: true,",
+						"     allowSchemaDrift: false,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> KEV",
-						"Assets, KEV lookup(application == Product,",
+						"     ignoreNoFilesFound: false) ~> KEVCatalog",
+						"Assets, KEVCatalog lookup(application == product,",
 						"     multiple: false,",
 						"     pickup: 'any',",
 						"     broadcast: 'auto')~> SearchVulns",
 						"SearchVulns cast(output(",
-						"          {Date Added} as date 'yyyy-MM-dd',",
-						"          {Due Date} as date 'yyyy.MM.dd'",
+						"          application as string",
 						"     ),",
 						"     errors: true) ~> DateFormatTransform",
 						"DateFormatTransform sink(allowSchemaDrift: true,",
