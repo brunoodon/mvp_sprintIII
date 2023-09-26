@@ -44,7 +44,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "http://mvp-puc.brunoodon.com.br/vulnerability-alerts-df",
+					"url": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-df/_doc",
 					"method": "POST",
 					"headers": {
 						"Content-type": "application/json"
