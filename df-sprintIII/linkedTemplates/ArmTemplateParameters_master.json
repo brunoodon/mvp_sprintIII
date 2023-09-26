@@ -47,6 +47,9 @@
 		"vulnerability_alerts_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
 		},
+		"Kev_Catalog_properties_typeProperties_url": {
+			"value": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
+		},
 		"containerUri": {
 			"value": ""
 		},
