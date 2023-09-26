@@ -695,6 +695,116 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "cveID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "cveID",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "vendorProject",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "vendorProject",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "product",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "product",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "vulnerabilityName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "vulnerabilityName",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "dateAdded",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "dateAdded",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "shortDescription",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "shortDescription",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "requiredAction",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "requiredAction",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "dueDate",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "dueDate",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "notes",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "notes",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
 								"typeConversion": true,
 								"typeConversionSettings": {
 									"allowDataTruncation": true,
