@@ -27,7 +27,8 @@
 				}
 			},
 			{
-				"name": "WebHook1",
+				"name": "ES Ingest",
+				"description": "Inesto to Elasticsearch cluster",
 				"type": "WebHook",
 				"dependsOn": [
 					{
