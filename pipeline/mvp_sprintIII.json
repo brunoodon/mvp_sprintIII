@@ -43,6 +43,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"url": "http://mvp-puc.brunoodon.com.br/vulnerability-alerts-df",
 					"method": "POST",
 					"timeout": "00:10:00"
 				}
