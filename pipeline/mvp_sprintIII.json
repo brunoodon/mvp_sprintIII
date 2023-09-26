@@ -17,24 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "Vulnerability_alerts",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"VulnerabilityAlerts": {
-								"Application": "Null",
-								"IP": "Null",
-								"Hostname": "Null",
-								"Dep": "Null",
-								"CVE": "Null",
-								"Vendor": "Null",
-								"Product": "Null",
-								"VulnName": "Null",
-								"DateAdded": "Null",
-								"Description": "Null",
-								"RequiredAction": "Null",
-								"DueDate": "Null",
-								"Notes": "Null"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
