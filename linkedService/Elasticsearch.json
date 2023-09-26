@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-bigtechs/_doc",
+			"url": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc",
 			"enableServerCertificateValidation": false,
 			"authenticationType": "Anonymous"
 		}
