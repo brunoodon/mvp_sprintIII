@@ -277,7 +277,44 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "cveID",
+						"type": "String"
+					},
+					{
+						"name": "vendorProject",
+						"type": "String"
+					},
+					{
+						"name": "product",
+						"type": "String"
+					},
+					{
+						"name": "vulnerabilityName",
+						"type": "String"
+					},
+					{
+						"name": "dateAdded",
+						"type": "String"
+					},
+					{
+						"name": "shortDescription",
+						"type": "String"
+					},
+					{
+						"name": "requiredAction",
+						"type": "String"
+					},
+					{
+						"name": "dueDate",
+						"type": "String"
+					},
+					{
+						"name": "notes",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Kev_Catalog')]"
