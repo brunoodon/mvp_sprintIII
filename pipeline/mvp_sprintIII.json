@@ -3,47 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Vulns_Alerts_Bigtechs",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "Vulnerability_alerts",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"IngestToDW": {
-								"Application": "Null",
-								"IP": "Null",
-								"Hostname": "Null",
-								"Dep": "Null",
-								"CVE": "Null",
-								"Vendor": "Null",
-								"Product": "Null",
-								"VulnName": "Null",
-								"DateAdded": "Null",
-								"Description": "Null",
-								"RequiredAction": "Null",
-								"DueDate": "Null",
-								"Notes": "Null"
-							}
-						}
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
 				"name": "Fetching KEV Catalog",
 				"type": "Copy",
 				"dependsOn": [],
@@ -100,6 +59,33 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "VulnerabilityAlerts DataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Fetching KEV Catalog",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"annotations": []
