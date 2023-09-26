@@ -26,6 +26,9 @@
 		"Elasticsearch_properties_typeProperties_url": {
 			"value": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
 		},
+		"Kev_Catalog_properties_typeProperties_url": {
+			"value": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
+		},
 		"assets_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
 		},
@@ -46,9 +49,6 @@
 		},
 		"vulnerability_alerts_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
-		},
-		"Kev_Catalog_properties_typeProperties_url": {
-			"value": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
 		},
 		"containerUri": {
 			"value": ""

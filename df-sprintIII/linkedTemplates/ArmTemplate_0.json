@@ -35,6 +35,10 @@
 			"type": "string",
 			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
 		},
+		"Kev_Catalog_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
+		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/assets.csv"
@@ -62,10 +66,6 @@
 		"vulnerability_alerts_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/brunoodon/mvp-sprint1/main/vulnerability_alerts.csv"
-		},
-		"Kev_Catalog_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
 		}
 	},
 	"variables": {
@@ -126,6 +126,22 @@
 				"typeProperties": {
 					"url": "[parameters('Elasticsearch_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Kev_Catalog')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Known Exploted Vulnerabilities around the world",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Kev_Catalog_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
 			},
@@ -242,20 +258,30 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Kev_Catalog')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/KEV_catalog')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Known Exploted Vulnerabilities around the world",
+				"linkedServiceName": {
+					"referenceName": "Kev_Catalog",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "HttpServer",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"url": "[parameters('Kev_Catalog_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Kev_Catalog')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/VulnAlerts')]",
@@ -539,32 +565,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/KEV_catalog')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Kev_Catalog",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Kev_Catalog')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Vulnerability_alerts')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -658,51 +658,6 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Vulns_Alerts_Bigtechs",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "Vulnerability_alerts",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Assets": {},
-									"KEV": {},
-									"IngestToDW": {
-										"Application": "Null",
-										"IP": "Null",
-										"Hostname": "Null",
-										"Dep": "Null",
-										"CVE": "Null",
-										"Vendor": "Null",
-										"Product": "Null",
-										"VulnName": "Null",
-										"DateAdded": "Null",
-										"Description": "Null",
-										"RequiredAction": "Null",
-										"DueDate": "Null",
-										"Notes": "Null"
-									}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
 						"name": "Fetching KEV Catalog",
 						"type": "Copy",
 						"dependsOn": [],
@@ -761,6 +716,58 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "VulnerabilityAlerts DataFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Fetching KEV Catalog",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Vulnerability_alerts",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Assets": {},
+									"KEV": {},
+									"IngestToDW": {
+										"Application": "Null",
+										"IP": "Null",
+										"Hostname": "Null",
+										"Dep": "Null",
+										"CVE": "Null",
+										"Vendor": "Null",
+										"Product": "Null",
+										"VulnName": "Null",
+										"DateAdded": "Null",
+										"Description": "Null",
+										"RequiredAction": "Null",
+										"DueDate": "Null",
+										"Notes": "Null"
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -770,9 +777,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/Vulnerability_alerts')]",
 				"[concat(variables('factoryId'), '/datasets/KEV_catalog')]",
-				"[concat(variables('factoryId'), '/datasets/kev_df')]"
+				"[concat(variables('factoryId'), '/datasets/kev_df')]",
+				"[concat(variables('factoryId'), '/dataflows/Vulnerability_alerts')]"
 			]
 		},
 		{
