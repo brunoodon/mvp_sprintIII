@@ -649,6 +649,36 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "ES Ingest",
+						"description": "Inesto to Elasticsearch cluster",
+						"type": "WebHook",
+						"dependsOn": [
+							{
+								"activity": "Vulns_Alerts_Bigtechs",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "http://mvp-puc.brunoodon.com.br/vulnerability-alerts-df",
+							"method": "POST",
+							"headers": {
+								"Content-type": "application/json"
+							},
+							"body": {
+								"value": "@activity('Vulns_Alerts_Bigtechs').output",
+								"type": "Expression"
+							},
+							"timeout": "00:10:00"
+						}
 					}
 				],
 				"policy": {
