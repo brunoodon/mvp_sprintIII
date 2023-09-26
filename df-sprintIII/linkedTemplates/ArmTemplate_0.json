@@ -33,7 +33,7 @@
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
+			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-bigtechs/_doc"
 		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
@@ -238,210 +238,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ASSETS_DELTA')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Delta",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureDatabricksDeltaLakeDataset",
-				"typeProperties": {
-					"table": "ASSETS"
-				},
-				"schema": [
-					{
-						"name": "APPLICATION",
-						"type": "string"
-					},
-					{
-						"name": "IP",
-						"type": "string"
-					},
-					{
-						"name": "HOSTNAME",
-						"type": "string"
-					},
-					{
-						"name": "DEP",
-						"type": "string"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Delta')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Assets')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "mvp_puc_ftp",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "assets.csv",
-						"folderPath": "/tmp"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "application",
-						"type": "String"
-					},
-					{
-						"name": "ip",
-						"type": "String"
-					},
-					{
-						"name": "hostname",
-						"type": "String"
-					},
-					{
-						"name": "dep",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/KEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "mvp_puc_ftp",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "known_exploited_vulnerabilities.csv",
-						"folderPath": "/tmp"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "CVE ID",
-						"type": "String"
-					},
-					{
-						"name": "Vendor Project",
-						"type": "String"
-					},
-					{
-						"name": "Product",
-						"type": "String"
-					},
-					{
-						"name": "Vulnerability Name",
-						"type": "String"
-					},
-					{
-						"name": "Date Added",
-						"type": "String"
-					},
-					{
-						"name": "Short Description",
-						"type": "String"
-					},
-					{
-						"name": "Required Action",
-						"type": "String"
-					},
-					{
-						"name": "Due Date",
-						"type": "String"
-					},
-					{
-						"name": "Notes",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/KEV_DELTA')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Delta",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureDatabricksDeltaLakeDataset",
-				"typeProperties": {
-					"table": "KEV"
-				},
-				"schema": [
-					{
-						"name": "CVE",
-						"type": "string"
-					},
-					{
-						"name": "VENDOR",
-						"type": "string"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "string"
-					},
-					{
-						"name": "VULN_NAME",
-						"type": "string"
-					},
-					{
-						"name": "DATE_ADDED",
-						"type": "string"
-					},
-					{
-						"name": "DESCRIPTION",
-						"type": "string"
-					},
-					{
-						"name": "REQUIRED_ACTION",
-						"type": "string"
-					},
-					{
-						"name": "DUE_DATE",
-						"type": "string"
-					},
-					{
-						"name": "NOTES",
-						"type": "string"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Delta')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/VulnAlerts')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -529,87 +325,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Elasticsearch')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Vulnerability_Alerts')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "mvp_puc_ftp",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "VulnerabilityAlerts.csv",
-						"folderPath": "/home/odon"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "application",
-						"type": "String"
-					},
-					{
-						"name": "ip",
-						"type": "String"
-					},
-					{
-						"name": "hostname",
-						"type": "String"
-					},
-					{
-						"name": "dep",
-						"type": "String"
-					},
-					{
-						"name": "CVE ID",
-						"type": "String"
-					},
-					{
-						"name": "Vendor Project",
-						"type": "String"
-					},
-					{
-						"name": "Product",
-						"type": "String"
-					},
-					{
-						"name": "Vulnerability Name",
-						"type": "String"
-					},
-					{
-						"name": "Date Added",
-						"type": "String"
-					},
-					{
-						"name": "Short Description",
-						"type": "String"
-					},
-					{
-						"name": "Required Action",
-						"type": "String"
-					},
-					{
-						"name": "Due Date",
-						"type": "String"
-					},
-					{
-						"name": "Notes",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/mvp_puc_ftp')]"
 			]
 		},
 		{
@@ -801,6 +516,179 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/BlobStorageMVPIII')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Vulnerability_alerts')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "assets_df",
+								"type": "DatasetReference"
+							},
+							"name": "Assets"
+						},
+						{
+							"dataset": {
+								"referenceName": "kev_df",
+								"type": "DatasetReference"
+							},
+							"name": "KEV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Vulns_alerts_df",
+								"type": "DatasetReference"
+							},
+							"name": "VulnerabilityAlerts"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SearchVulns"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          application as string,",
+						"          ip as string,",
+						"          hostname as string,",
+						"          dep as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Assets",
+						"source(output(",
+						"          {CVE ID} as string,",
+						"          {Vendor Project} as string,",
+						"          Product as string,",
+						"          {Vulnerability Name} as string,",
+						"          {Date Added} as string,",
+						"          {Short Description} as string,",
+						"          {Required Action} as string,",
+						"          {Due Date} as string,",
+						"          Notes as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> KEV",
+						"Assets, KEV lookup(application == Product,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> SearchVulns",
+						"SearchVulns sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          application as string,",
+						"          ip as string,",
+						"          hostname as string,",
+						"          dep as string,",
+						"          {CVE ID} as string,",
+						"          {Vendor Project} as string,",
+						"          Product as string,",
+						"          {Vulnerability Name} as string,",
+						"          {Date Added} as string,",
+						"          {Short Description} as string,",
+						"          {Required Action} as string,",
+						"          {Due Date} as string,",
+						"          Notes as string",
+						"     ),",
+						"     partitionFileNames:['VulnerabilityAlerts_DF.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> VulnerabilityAlerts"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/assets_df')]",
+				"[concat(variables('factoryId'), '/datasets/kev_df')]",
+				"[concat(variables('factoryId'), '/datasets/Vulns_alerts_df')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/mvp_sprintIII')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Vulns_Alerts_Bigtechs",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Vulnerability_alerts",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Assets": {},
+									"KEV": {},
+									"VulnerabilityAlerts": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Vulnerability_alerts')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ETL')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "mvp_sprintIII",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 50000,
+						"startTime": "2023-09-22T01:04:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/mvp_sprintIII')]"
 			]
 		}
 	]

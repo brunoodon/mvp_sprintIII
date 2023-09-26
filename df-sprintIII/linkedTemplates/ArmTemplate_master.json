@@ -33,7 +33,7 @@
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
+			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-bigtechs/_doc"
 		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
@@ -135,26 +135,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "df-sprintIII_ArmTemplate_1",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2018-02-01",
-			"properties": {
-				"mode": "incremental",
-				"templateLink": {
-					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
-					"contentVersion": "1.0.0.0"
-				},
-				"parameters": {
-					"factoryName": {
-						"value": "[parameters('factoryName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'df-sprintIII_ArmTemplate_0')]"
-			]
 		}
 	]
 }
