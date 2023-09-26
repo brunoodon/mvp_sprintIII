@@ -33,7 +33,7 @@
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-bigtechs/_doc"
+			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
 		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",

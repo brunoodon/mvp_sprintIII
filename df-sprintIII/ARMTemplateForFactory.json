@@ -33,7 +33,7 @@
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-bigtechs/_doc"
+			"defaultValue": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts/_doc"
 		},
 		"assets_properties_typeProperties_url": {
 			"type": "string",
@@ -94,21 +94,7 @@
 								"datasetParameters": {
 									"Assets": {},
 									"KEV": {},
-									"VulnerabilityAlerts": {
-										"Application": "Null",
-										"IP": "Null",
-										"Hostname": "Null",
-										"Dep": "Null",
-										"CVE": "Null",
-										"Vendor": "Null",
-										"Product": "Null",
-										"VulnName": "Null",
-										"DateAdded": "Null",
-										"Description": "Null",
-										"RequiredAction": "Null",
-										"DueDate": "Null",
-										"Notes": "Null"
-									}
+									"IngestToDW": {}
 								}
 							},
 							"staging": {},
@@ -639,8 +625,8 @@
 								"referenceName": "VulnAlertsES",
 								"type": "DatasetReference"
 							},
-							"name": "VulnerabilityAlerts",
-							"description": "Add data to ES Cluster"
+							"name": "IngestToDW",
+							"description": "Ingest all data to Elasticsearch Index"
 						}
 					],
 					"transformations": [
@@ -684,9 +670,10 @@
 						"     upsertable:false,",
 						"     insertHttpMethod: 'POST',",
 						"     timeout: 30,",
-						"     requestFormat: ['type' -> 'json', 'outputDateFormat' -> 'yyyy.MM.dd', 'outputTimestampFormat' -> 'yyyy.MM.dd'],",
+						"     requestInterval: 0,",
+						"     requestFormat: ['type' -> 'json'],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> VulnerabilityAlerts"
+						"     skipDuplicateMapOutputs: true) ~> IngestToDW"
 					]
 				}
 			},
