@@ -20,39 +20,39 @@
 		},
 		"schema": [
 			{
-				"name": "CVE ID",
+				"name": "cveID",
 				"type": "String"
 			},
 			{
-				"name": "Vendor Project",
+				"name": "vendorProject",
 				"type": "String"
 			},
 			{
-				"name": "Product",
+				"name": "product",
 				"type": "String"
 			},
 			{
-				"name": "Vulnerability Name",
+				"name": "vulnerabilityName",
 				"type": "String"
 			},
 			{
-				"name": "Date Added",
+				"name": "dateAdded",
 				"type": "String"
 			},
 			{
-				"name": "Short Description",
+				"name": "shortDescription",
 				"type": "String"
 			},
 			{
-				"name": "Required Action",
+				"name": "requiredAction",
 				"type": "String"
 			},
 			{
-				"name": "Due Date",
+				"name": "dueDate",
 				"type": "String"
 			},
 			{
-				"name": "Notes",
+				"name": "notes",
 				"type": "String"
 			}
 		]
