@@ -44,7 +44,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Fetching KEV Catalog",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
