@@ -123,7 +123,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "http://mvp-puc.brunoodon.com.br/vulnerability-alerts-df",
+							"url": "http://mvp-puc.brunoodon.com.br:9200/vulnerability-alerts-df/_doc",
 							"method": "POST",
 							"headers": {
 								"Content-type": "application/json"
@@ -651,9 +651,9 @@
 					],
 					"sinks": [
 						{
-							"dataset": {
-								"referenceName": "Vulns_alerts_df",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "BlobStorageMVPIII",
+								"type": "LinkedServiceReference"
 							},
 							"name": "VulnerabilityAlerts"
 						}
@@ -693,22 +693,9 @@
 						"     broadcast: 'auto')~> SearchVulns",
 						"SearchVulns sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     input(",
-						"          application as string,",
-						"          ip as string,",
-						"          hostname as string,",
-						"          dep as string,",
-						"          {CVE ID} as string,",
-						"          {Vendor Project} as string,",
-						"          Product as string,",
-						"          {Vulnerability Name} as string,",
-						"          {Date Added} as string,",
-						"          {Short Description} as string,",
-						"          {Required Action} as string,",
-						"          {Due Date} as string,",
-						"          Notes as string",
-						"     ),",
-						"     partitionFileNames:['VulnerabilityAlerts_DF.csv'],",
+						"     format: 'json',",
+						"     container: 'mvp',",
+						"     partitionFileNames:['VulnerabilityAlerts_DF.json'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     partitionBy('hash', 1)) ~> VulnerabilityAlerts"
@@ -718,7 +705,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/assets_df')]",
 				"[concat(variables('factoryId'), '/datasets/kev_df')]",
-				"[concat(variables('factoryId'), '/datasets/Vulns_alerts_df')]"
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageMVPIII')]"
 			]
 		}
 	]
