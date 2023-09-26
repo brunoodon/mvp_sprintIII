@@ -901,6 +901,9 @@
 					"transformations": [
 						{
 							"name": "SearchVulns"
+						},
+						{
+							"name": "DateFormatTransform"
 						}
 					],
 					"scriptLines": [
@@ -931,7 +934,12 @@
 						"     multiple: false,",
 						"     pickup: 'any',",
 						"     broadcast: 'auto')~> SearchVulns",
-						"SearchVulns sink(allowSchemaDrift: true,",
+						"SearchVulns cast(output(",
+						"          {Date Added} as date 'yyyy-MM-dd',",
+						"          {Due Date} as date 'yyyy.MM.dd'",
+						"     ),",
+						"     errors: true) ~> DateFormatTransform",
+						"DateFormatTransform sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
