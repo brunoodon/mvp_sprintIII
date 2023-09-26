@@ -1,5 +1,5 @@
 {
-	"name": "VulnAlertsBigtechs",
+	"name": "VulnAlertsES",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Elasticsearch",
