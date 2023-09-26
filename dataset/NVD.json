@@ -1,0 +1,17 @@
+{
+	"name": "NVD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NVD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		},
+		"schema": {}
+	}
+}
