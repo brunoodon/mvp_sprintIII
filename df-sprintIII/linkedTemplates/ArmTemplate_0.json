@@ -4,24 +4,24 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Nome do Data Factory",
 			"defaultValue": "df-sprintIII"
 		},
 		"Delta_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'Delta'"
+			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'Delta'"
 		},
 		"mv_puc_ftp_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'mv_puc_ftp'"
+			"metadata": "Cadeia de caracteres segura para 'password' de 'mv_puc_ftp'"
 		},
 		"mvp_puc_ftp_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'mvp_puc_ftp'"
+			"metadata": "Cadeia de caracteres segura para 'password' de 'mvp_puc_ftp'"
 		},
 		"mvp_sprintIII_dw_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'mvp_sprintIII_dw'"
+			"metadata": "Cadeia de caracteres segura para 'accessToken' de 'mvp_sprintIII_dw'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -29,7 +29,7 @@
 		},
 		"BlobStorageMVPIII_sasUri": {
 			"type": "secureString",
-			"metadata": "Secure string for 'sasUri' of 'BlobStorageMVPIII'"
+			"metadata": "Cadeia de caracteres segura para 'sasUri' de 'BlobStorageMVPIII'"
 		},
 		"Elasticsearch_properties_typeProperties_url": {
 			"type": "string",
@@ -729,12 +729,12 @@
 								"type": "DelimitedTextSink",
 								"storeSettings": {
 									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"copyBehavior": "PreserveHierarchy"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
